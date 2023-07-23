@@ -1,0 +1,21 @@
+body {
+}
+
+.listings {
+    display: grid;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dfe1e5;
+    border-radius: 30px;
+    width: 200px;
+    text-align: center;
+    padding: 30px;
+}
+
+.card:hover {
+    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+    border-color: rgba(223,225,229,0);
+}

@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+<div class="listings">
+{% for listing in listings %}
+   <div class="card">
+            <h2>{{ listing.title }}</h2>
+            <p>{{ listing.description }}</p>
+            <img src="{{ listing.image }}">
+            <h3>€{{ listing.start_bid }}</h3>
+            <p>Category: {{ listing.category }}</p>
+   </div>
+{% empty %}
+    <h2>No current listings</h2>
+{% endfor %}
+</div>
+
+{% endblock %}
