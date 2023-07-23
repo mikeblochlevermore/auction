@@ -7,11 +7,29 @@ from django.urls import reverse
 from .models import User, Listings
 
 
+
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listings.objects.all(),
     })
 
+def new_listing(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        image = request.POST["image"]
+        start_bid = request.POST["start_bid"]
+        category = request.POST["category"]
+
+        new_listing = Listings(title=title, description=description, image=image, start_bid=start_bid, category=category)
+        new_listing.save()
+
+        return render(request, "auctions/index.html", {
+        "listings": Listings.objects.all(),
+        })
+    else:
+        return render(request, "auctions/new_listing.html", {
+        })
 
 def login_view(request):
     if request.method == "POST":
