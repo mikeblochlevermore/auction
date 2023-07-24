@@ -8,36 +8,44 @@
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <h1>Auctions</h1>
-        <div>
-            {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
-            {% else %}
-                Not signed in.
-            {% endif %}
-        </div>
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
-            </li>
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'new_listing' %}">Add Listing</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-            {% endif %}
-        </ul>
+        <nav>
+            <div>
+                <h1 id="logo">dga</h1>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <a class="nav-link" href="{% url 'index' %}">listings</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a class="nav-link" href="{% url 'new_listing' %}">+ add</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="user">
+                {% if user.is_authenticated %}
+                <!-- <a href="https://www.flaticon.com/free-icons/monkey" title="monkey icons">Monkey icons created by Freepik - Flaticon</a> -->
+                    <img class="avatar" src="{% static 'auctions/monkey.png' %}">
+                    <strong class="username">{{ user.username }}</strong>
+                    <a class="logout" href="{% url 'logout' %}">Log Out</a>
+                {% else %}
+                    Not signed in.
+                {% endif %}
+            </div>
+        </nav>
         <hr>
+        <main>
         {% block body %}
         {% endblock %}
+        </main>
     </body>
 </html>

@@ -1,5 +1,96 @@
 * {
+    margin: 0px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+main {
+    margin: 30px;
+}
+
+body {
+    height: 100%;
+    background-color: wheat;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    align-content: space-between;
+    background-color: #333940;
+    color: black;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333940;
+    padding: 12px;
+    border-radius: 20px;
+    background-color: rgba(0,214,91,255);
+    border: solid 2px black;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    box-shadow: 0 1px 6px black;
+}
+
+.avatar {
+    width: 50px;
+    border: solid 2px black;
+    border-radius: 100%;
+    margin-right: 10px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    margin-right: 0;
+    margin-left: auto;
+    padding: 10px;
+}
+
+.user:hover > .avatar {
+    box-shadow: 0 1px 6px  black;
+}
+
+.logout {
+    visibility: hidden;
+    text-decoration: none;
+    color: inherit;
+    padding: 12px;
+    border-radius: 20px;
+    background-color: wheat;
+    border: solid 2px black;
+}
+
+.username {
+    position: absolute;
+    right: 55px;
+    color: wheat;
+}
+
+.user:hover > .logout {
+    visibility: visible;
+}
+
+.user:hover > .username {
+    visibility: hidden;
+}
+
+#logo {
+    color: rgba(0,214,91,255);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 60px;
     margin: 10px;
+    margin-bottom: 14px;
+    text-shadow: 0 0 5px black;
 }
 
 .listings {
@@ -16,15 +107,17 @@
     width: 200px;
     text-align: center;
     padding: 20px;
+    background-color: white;
 }
 
 .card:hover {
-    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+    box-shadow: 0 1px 6px rgba(32,33,36,.40);
     border-color: rgba(223,225,229,0);
 }
 
 .create_form {
     display: grid;
+    margin: 0px 40px 40px 40px;
 }
 
 .create_form input {
@@ -32,4 +125,16 @@
     border-radius: 30px;
     padding: 10px;
     padding-left: 30px;
+    margin-top: 20px;
+}
+
+.wrapper {
+    margin: 15vh 20vw 0 20vw;
+    border-radius: 40px;
+    border: solid 2px black;
+    background-color: white;
+}
+
+.wrapper h2 {
+    margin: 40px 40px 0 40px;
 }
