@@ -6,39 +6,35 @@
         <title>{% block title %}Auctions{% endblock %}</title>
         <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <nav>
             <div>
-                <h1 id="logo">dga</h1>
+                <a href="{% url 'index' %}"><h1 id="logo">dga</h1></a>
             </div>
-            <div>
-                <ul>
-                    <li>
-                        <a class="nav-link" href="{% url 'index' %}">listings</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li>
-                            <a class="nav-link" href="{% url 'new_listing' %}">+ add</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                        </li>
-                        <li>
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
-                        </li>
-                    {% endif %}
-                </ul>
+            <div id="search_area">
+                <form action="{% url 'index' %}" method="GET">
+                    <div id="searchbar">
+                        <i id="magnifier" class="fa fa-search"></i>
+                        <input id="searchinput" type="text" name="q" placeholder="Search">
+                    </div>
+                </form>
             </div>
             <div class="user">
                 {% if user.is_authenticated %}
                 <!-- <a href="https://www.flaticon.com/free-icons/monkey" title="monkey icons">Monkey icons created by Freepik - Flaticon</a> -->
+                    <a class="nav-link" href="{% url 'new_listing' %}">List an Item</a>    
                     <img class="avatar" src="{% static 'auctions/monkey.png' %}">
-                    <strong class="username">{{ user.username }}</strong>
+                    <h3 class="username">{{ user.username }}</h3>
                     <a class="logout" href="{% url 'logout' %}">Log Out</a>
                 {% else %}
-                    Not signed in.
+                <li>
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
                 {% endif %}
             </div>
         </nav>
