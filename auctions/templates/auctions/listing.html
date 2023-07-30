@@ -23,7 +23,9 @@
 <div class="comments">
     {% for comment in comments %}
         <!-- To display the listing_id of the comment: <p>{{ comment.listing_id.id }}</p> -->
+        <strong>{{ comment.user }}</strong>
         <p>{{ comment.comment }}</p>
+        <p>{{ comment.time }}</p>
     {% endfor %}
 </div>
 

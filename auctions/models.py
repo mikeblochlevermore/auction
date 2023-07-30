@@ -16,8 +16,10 @@ class Listings(models.Model):
         return f"{self.title}, {self.description}, {self.start_bid}, {self.image}, {self.category}"
 
 class Comments(models.Model):
-   listing_id = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="comments")
+   listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="comments", null=True)
    comment = models.CharField(max_length=128)
+   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+   time = models.DateTimeField()
 
    def __str__(self):
-        return f"{self.listing_id}, {self.comment}"
+        return f"{self.listing}, {self.comment}, {self.user}, {self.time}"

@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from datetime import datetime, timedelta
 
 from .models import User, Listings, Comments
 
@@ -15,7 +16,8 @@ def index(request):
 
 def listing(request, listing_id):
     listing = Listings.objects.get(id=listing_id)
-    comments = Comments.objects.filter(listing_id=listing_id)
+    comments = Comments.objects.filter(listing=listing_id)
+
     if request.method == "GET":
         return render(request, "auctions/listing.html", {
             "listing": listing,
@@ -25,7 +27,7 @@ def listing(request, listing_id):
     if request.method == "POST":
         comment = request.POST["comment"]
 
-        new_comment =  Comments(listing_id=Listings.objects.get(id=listing_id), comment=comment)
+        new_comment =  Comments(listing=Listings.objects.get(id=listing_id), comment=comment, user=request.user, time=datetime.now())
         new_comment.save()
 
         return render(request, "auctions/listing.html", {
