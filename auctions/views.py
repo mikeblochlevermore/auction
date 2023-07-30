@@ -13,6 +13,12 @@ def index(request):
         "listings": Listings.objects.all(),
     })
 
+def listing(request, listing_title):
+    listing = Listings.objects.get(title=listing_title)
+    return render(request, "auctions/listing.html", {
+        "listing": listing,
+    })
+
 def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
