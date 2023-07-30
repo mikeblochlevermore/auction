@@ -13,4 +13,18 @@
     </div>
 </div>
 
+<form action="{% url 'listing' listing.id %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
+    <input type="text" name="comment" placeholder="comments"></input>
+    <input type="submit">
+</form>
+
+<div class="comments">
+    {% for comment in comments %}
+        <!-- To display the listing_id of the comment: <p>{{ comment.listing_id.id }}</p> -->
+        <p>{{ comment.comment }}</p>
+    {% endfor %}
+</div>
+
 {% endblock %}

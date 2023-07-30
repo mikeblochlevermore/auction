@@ -5,7 +5,7 @@
 
 <div class="listings">
 {% for listing in listings %}
-<a href="{% url 'listing' listing.title %}">
+<a href="{% url 'listing' listing.id %}">
    <div class="card">
             <h2>{{ listing.title }}</h2>
             <p>{{ listing.description }}</p>

@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Listings
+from .models import User, Listings, Comments
 
 
 
@@ -13,11 +13,25 @@ def index(request):
         "listings": Listings.objects.all(),
     })
 
-def listing(request, listing_title):
-    listing = Listings.objects.get(title=listing_title)
-    return render(request, "auctions/listing.html", {
-        "listing": listing,
-    })
+def listing(request, listing_id):
+    listing = Listings.objects.get(id=listing_id)
+    comments = Comments.objects.filter(listing_id=listing_id)
+    if request.method == "GET":
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "comments": comments,
+        })
+
+    if request.method == "POST":
+        comment = request.POST["comment"]
+
+        new_comment =  Comments(listing_id=Listings.objects.get(id=listing_id), comment=comment)
+        new_comment.save()
+
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "comments": comments,
+        })
 
 def new_listing(request):
     if request.method == "POST":
