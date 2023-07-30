@@ -181,3 +181,30 @@ nav ul {
 #searchbar:hover {
     background-color: white;
 }
+
+.comment {
+    margin: 40px;
+    width: 200px;
+}
+
+.comment_text {
+    background-color: white;
+    border: solid 1px black;
+    padding: 8px;
+    width: fit-content;
+    border-radius: 20px 20px 0 20px;
+    margin: 6px 6px 6px -8px;
+}
+
+.user_comment_text {
+    background-color: blue;
+    border: solid 1px black;
+    padding: 8px;
+    width: fit-content;
+    border-radius: 20px 20px 0 20px;
+    margin: 6px 6px 6px -8px;
+}
+
+.comment_time {
+    font-size: 10px;
+}

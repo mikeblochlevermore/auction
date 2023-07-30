@@ -20,13 +20,25 @@
     <input type="submit">
 </form>
 
-<div class="comments">
+<div class="comment_list">
     {% for comment in comments %}
-        <!-- To display the listing_id of the comment: <p>{{ comment.listing_id.id }}</p> -->
-        <strong>{{ comment.user }}</strong>
-        <p>{{ comment.comment }}</p>
-        <p>{{ comment.time }}</p>
+        <!-- To display the listing_id of the comment: <p>{{ comment.listing.id }}</p> -->
+        {% if comment.user == user %}
+            <div class="comment">
+                <h3>{{ comment.user }} (You)</h3>
+                <p class="user_comment_text">{{ comment.comment }}</p>
+                <p class="comment_time">{{ comment.time }}</p>
+            </div>
+        {% else %}
+            <div class="comment">
+                <h3>{{ comment.user }}</h3>
+                <p class="comment_text">{{ comment.comment }}</p>
+                <p class="comment_time">{{ comment.time }}</p>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
+
+<p>{{user.username}}</p>
 
 {% endblock %}
