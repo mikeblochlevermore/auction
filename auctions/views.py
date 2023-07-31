@@ -8,6 +8,9 @@ from django.db.models import Max
 
 from .models import User, Listings, Comments, Bids
 
+from itertools import chain
+from operator import attrgetter
+
 
 
 def index(request):
@@ -19,12 +22,15 @@ def listing(request, listing_id):
     listing = Listings.objects.get(id=listing_id)
     comments = Comments.objects.filter(listing=listing_id)
     bids = Bids.objects.filter(listing=listing_id)
+
     highest_bid = bids.aggregate(Max('bid'))['bid__max']
+
+    # Mergers the data for comments and bids, then sorts by time, to give a history for the listing
+    history = sorted(chain(bids, comments), key=attrgetter('time'))
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "comments": comments,
-        "bids": bids,
+        'history': history,
         "highest_bid": highest_bid,
     })
 

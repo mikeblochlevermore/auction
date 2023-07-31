@@ -182,7 +182,7 @@ nav ul {
     background-color: white;
 }
 
-.comment_list {
+.history {
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -191,8 +191,15 @@ nav ul {
     margin: auto;
 }
 
+.bid {
+    margin: 12px;
+    display: flex;
+    flex-direction: row;
+    text-align: right;
+}
+
 .comment {
-    margin: 40px;
+    margin: 12px;
     display: flex;
     flex-direction: column;
     text-align: right;
@@ -207,6 +214,16 @@ nav ul {
 
 .comment_text {
     background-color: lightblue;
+    border: solid 1px black;
+    padding: 8px;
+    width: fit-content;
+    justify-content: flex-end;
+    border-radius: 20px 20px 0 20px;
+    margin: 6px 0px 6px auto;
+}
+
+.bid_text {
+    background-color: lightseagreen;
     border: solid 1px black;
     padding: 8px;
     width: fit-content;

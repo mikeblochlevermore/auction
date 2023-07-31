@@ -18,7 +18,7 @@
             <h3>Current Price: €{{ highest_bid }}</h3>
         {% endif %}
 
-        <p>Number of bids: {{ bids.count }}</p>
+        <p>Number of bids: {{ bid.count }}</p>
         <form action="{% url 'bid' listing.id %}" method="POST">
             {% csrf_token %}
             <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
@@ -28,11 +28,7 @@
     </div>
 </div>
 
-{% for bid in bids %}
-<p>{{bid.user}}</p>
-<p>{{bid.bid}}</p>
-<p>{{bid.time}}</p>
-{% endfor %}
+
 
 <hr>
 
@@ -43,27 +39,32 @@
     <input type="submit">
 </form>
 
-
-
-<div class="comment_list">
-    {% for comment in comments %}
-        <!-- NOTE: To display the listing_id of the comment: <p>{{ comment.listing.id }}</p> -->
-
-        <!-- alters style if the comment is by the seller of that listing -->
-        {% if comment.user == listing.user %}
+<h1>History</h1>
+<div class="history">
+{% for item in history %}
+    {% if item.bid %}
+        <!-- This item is a bid -->
+        <div class="comment">
+            <h3 class="bid_text">{{ item.user }} bid: €{{ item.bid }}</h3>
+            <p class="comment_time">{{ item.time }}</p>
+        </div>
+    {% else %}
+        <!-- This item is a comment -->
+        {% if item.user == listing.user %}
             <div class="seller_comment">
-                <h3>🙂 {{ comment.user }} (seller)</h3>
-                <p class="seller_comment_text">{{ comment.comment }}</p>
-                <p class="comment_time">{{ comment.time }}</p>
+                <h3>🙂 {{ item.user }} (seller)</h3>
+                <p class="seller_comment_text">{{ item.comment }}</p>
+                <p class="comment_time">{{ item.time }}</p>
             </div>
         {% else %}
             <div class="comment">
-                <h3>{{ comment.user }}</h3>
-                <p class="comment_text">{{ comment.comment }}</p>
-                <p class="comment_time">{{ comment.time }}</p>
+                <h3>{{ item.user }}</h3>
+                <p class="comment_text">{{ item.comment }}</p>
+                <p class="comment_time">{{ item.time }}</p>
             </div>
         {% endif %}
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 </div>
 
 {% endblock %}
