@@ -1,6 +1,6 @@
 * {
     margin: 0px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif
 
 }
 
@@ -10,7 +10,7 @@ main {
 
 body {
     height: 100%;
-    background-color: wheat;
+    background-color: white;
 }
 
 nav {
@@ -182,29 +182,68 @@ nav ul {
     background-color: white;
 }
 
+.comment_list {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: aliceblue;
+    margin: auto;
+}
+
 .comment {
     margin: 40px;
-    width: 200px;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.seller_comment {
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
 .comment_text {
+    background-color: lightblue;
+    border: solid 1px black;
+    padding: 8px;
+    width: fit-content;
+    justify-content: flex-end;
+    border-radius: 20px 20px 0 20px;
+    margin: 6px 0px 6px auto;
+}
+
+.seller_comment_text {
     background-color: white;
     border: solid 1px black;
     padding: 8px;
     width: fit-content;
-    border-radius: 20px 20px 0 20px;
-    margin: 6px 6px 6px -8px;
-}
-
-.user_comment_text {
-    background-color: blue;
-    border: solid 1px black;
-    padding: 8px;
-    width: fit-content;
-    border-radius: 20px 20px 0 20px;
-    margin: 6px 6px 6px -8px;
+    border-radius: 20px 20px 20px 0px;
+    margin: 6px 6px 6px 0;
 }
 
 .comment_time {
     font-size: 10px;
+}
+
+.listing_wrapper {
+    display: flex;
+    margin: 40px;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.listing_wrapper img {
+    height: 350px;
+}
+
+.listing_title {
+    font-size: 100px;
+    text-transform: uppercase;
+}
+
+.listing_description {
+    margin: 20px 0 20px 0;
 }

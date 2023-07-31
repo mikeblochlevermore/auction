@@ -3,9 +3,10 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from datetime import datetime, timedelta
+from datetime import datetime
+from django.db.models import Max
 
-from .models import User, Listings, Comments
+from .models import User, Listings, Comments, Bids
 
 
 
@@ -17,33 +18,82 @@ def index(request):
 def listing(request, listing_id):
     listing = Listings.objects.get(id=listing_id)
     comments = Comments.objects.filter(listing=listing_id)
+    bids = Bids.objects.filter(listing=listing_id)
+    highest_bid = bids.aggregate(Max('bid'))['bid__max']
 
-    if request.method == "GET":
-        return render(request, "auctions/listing.html", {
-            "listing": listing,
-            "comments": comments,
-        })
+    return render(request, "auctions/listing.html", {
+        "listing": listing,
+        "comments": comments,
+        "bids": bids,
+        "highest_bid": highest_bid,
+    })
 
-    if request.method == "POST":
-        comment = request.POST["comment"]
+def comment(request, listing_id):
 
-        new_comment =  Comments(listing=Listings.objects.get(id=listing_id), comment=comment, user=request.user, time=datetime.now())
-        new_comment.save()
+    comment = request.POST["comment"]
 
-        return render(request, "auctions/listing.html", {
-            "listing": listing,
-            "comments": comments,
-        })
+    new_comment =  Comments(
+        listing=Listings.objects.get(id=listing_id),
+        comment=comment,
+        user=request.user,
+        time=datetime.now()
+        )
+    new_comment.save()
+
+    url = reverse('listing', kwargs={'listing_id': listing_id})
+    return HttpResponseRedirect(url)
+
+
+def bid(request, listing_id):
+
+    bid = int(request.POST["bid"])
+
+    # Check the new bid is higher than the current highest bid
+    bids = Bids.objects.filter(listing=listing_id)
+    highest_bid = bids.aggregate(Max('bid'))['bid__max']
+
+    # if no bids, set the highest_bid to the start price of the listing
+    if highest_bid is None:
+        listing = Listings.objects.get(id=listing_id)
+        highest_bid = listing.start_price
+
+    # Save the new bid if it is the highest offer
+    if bid > highest_bid:
+
+        new_bid =  Bids(
+            listing=Listings.objects.get(id=listing_id),
+            bid=bid,
+            user=request.user,
+            time=datetime.now()
+            )
+        new_bid.save()
+    else:
+        print("must be a higher amount than the current price")
+
+    url = reverse('listing', kwargs={'listing_id': listing_id})
+    return HttpResponseRedirect(url)
+
 
 def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
         image = request.POST["image"]
-        start_bid = request.POST["start_bid"]
+        start_price = request.POST["start_price"]
         category = request.POST["category"]
+        end_time = request.POST["end_time"]
 
-        new_listing = Listings(title=title, description=description, image=image, start_bid=start_bid, category=category)
+        new_listing = Listings(
+            title=title,
+            description=description,
+            image=image,
+            start_price=start_price,
+            category=category,
+            user=request.user,
+            start_time=datetime.now(),
+            end_time=end_time
+        )
+
         new_listing.save()
 
         return render(request, "auctions/index.html", {

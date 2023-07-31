@@ -1,32 +1,59 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
 
-<div class="listings">
-    <div class="card">
-             <h2>{{ listing.title }}</h2>
-             <p>{{ listing.description }}</p>
-             <img src="{{ listing.image }}">
-             <h3>€{{ listing.start_bid }}</h3>
-             <p>Category: {{ listing.category }}</p>
+<div class="listing_wrapper">
+    <div>
+        <img src="{{ listing.image }}">
+    </div>
+    <div>
+        <h1 class="listing_title">{{ listing.title }}</h1>
+        <h4>Sold by {{ listing.user }}</h4>
+        <p class="listing_description">{{ listing.description }}</p>
+        <p>Category: {{ listing.category }}</p>
+
+        {% if highest_bid is None %}
+            <h3>Current Price: €{{ listing.start_price }}</h3>
+        {% else %}
+            <h3>Current Price: €{{ highest_bid }}</h3>
+        {% endif %}
+
+        <p>Number of bids: {{ bids.count }}</p>
+        <form action="{% url 'bid' listing.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
+            <input type="number" name="bid" placeholder="Bid"></input>
+            <input type="submit">
+        </form>
     </div>
 </div>
 
-<form action="{% url 'listing' listing.id %}" method="POST">
+{% for bid in bids %}
+<p>{{bid.user}}</p>
+<p>{{bid.bid}}</p>
+<p>{{bid.time}}</p>
+{% endfor %}
+
+<hr>
+
+<form action="{% url 'comment' listing.id %}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
     <input type="text" name="comment" placeholder="comments"></input>
     <input type="submit">
 </form>
 
+
+
 <div class="comment_list">
     {% for comment in comments %}
-        <!-- To display the listing_id of the comment: <p>{{ comment.listing.id }}</p> -->
-        {% if comment.user == user %}
-            <div class="comment">
-                <h3>{{ comment.user }} (You)</h3>
-                <p class="user_comment_text">{{ comment.comment }}</p>
+        <!-- NOTE: To display the listing_id of the comment: <p>{{ comment.listing.id }}</p> -->
+
+        <!-- alters style if the comment is by the seller of that listing -->
+        {% if comment.user == listing.user %}
+            <div class="seller_comment">
+                <h3>🙂 {{ comment.user }} (seller)</h3>
+                <p class="seller_comment_text">{{ comment.comment }}</p>
                 <p class="comment_time">{{ comment.time }}</p>
             </div>
         {% else %}
@@ -38,7 +65,5 @@
         {% endif %}
     {% endfor %}
 </div>
-
-<p>{{user.username}}</p>
 
 {% endblock %}

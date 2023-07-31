@@ -5,15 +5,13 @@
 
 <div class="listings">
 {% for listing in listings %}
-<a href="{% url 'listing' listing.id %}">
-   <div class="card">
-            <h2>{{ listing.title }}</h2>
-            <p>{{ listing.description }}</p>
-            <img src="{{ listing.image }}">
-            <h3>€{{ listing.start_bid }}</h3>
-            <p>Category: {{ listing.category }}</p>
-   </div>
-</a>
+    <a href="{% url 'listing' listing.id %}">
+    <div class="card">
+                <img src="{{ listing.image }}">
+                <h2>{{ listing.title }}</h2>
+                <h3>€{{ listing.start_price }}</h3>
+    </div>
+    </a>
 {% empty %}
     <h2>No current listings</h2>
 {% endfor %}
