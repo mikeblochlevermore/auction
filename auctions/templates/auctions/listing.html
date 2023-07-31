@@ -8,12 +8,12 @@
     </div>
     <div>
         <h1 class="listing_title">{{ listing.title }}</h1>
-        <h4>Sold by {{ listing.user }}</h4>
+        <h4 class="seller">seller: {{ listing.user }}</h4>
         <div class="price">
             {% if highest_bid is None %}
-                <h3>€{{ listing.start_price }}</h3>
+                <h3>{{ listing.start_price }} kr.</h3>
             {% else %}
-                <h3>€{{ highest_bid }}</h3>
+                <h3>{{ highest_bid }} kr.</h3>
             {% endif %}
             <p><strong>{{ bid_count }} bids </strong>
                 {% if bid_count > 5 %}
@@ -58,7 +58,7 @@
     {% if item.bid %}
         <!-- This item is a bid -->
         <div class="comment">
-            <p class="bid_text"><strong>{{ item.user }} bid:</strong> €{{ item.bid }}</p>
+            <p class="bid_text"><strong>{{ item.user }} bid:</strong> {{ item.bid }} kr.</p>
             <p class="comment_time">{{ item.time }}</p>
         </div>
     {% else %}

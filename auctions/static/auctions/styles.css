@@ -35,13 +35,16 @@ nav ul {
 
 .nav-link {
     text-decoration: none;
-    color: #333940;
+    color: white;
     padding: 12px;
-    border-radius: 20px;
+    border-radius: 2px;
     background-color: rgba(0,214,91,255);
     border: solid 2px black;
-    font-weight: bold;
     margin-right: 12px;
+    background-color: #3269c8;
+    width: 120px;
+    font-size: 16px;
+    text-align: center;
 }
 
 .nav-link:hover {
@@ -68,6 +71,8 @@ nav ul {
 
 .logout {
     visibility: hidden;
+    position: absolute;
+    right: 7px;
     text-decoration: none;
     color: inherit;
     padding: 12px;
@@ -77,9 +82,8 @@ nav ul {
 }
 
 .username {
-    position: absolute;
-    right: 55px;
     color: black;
+    margin-right: 20px;
 }
 
 .user:hover > .logout {
@@ -91,12 +95,10 @@ nav ul {
 }
 
 #logo {
-    color: rgba(0,214,91,255);
+    color: #3269c8;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 60px;
-    margin: 10px;
-    margin-bottom: 14px;
-    text-shadow: 0 0 5px black;
+    margin: 10px 0px 10px 30px;
 }
 
 .listings {
@@ -111,15 +113,42 @@ nav ul {
     border: 1px solid #dfe1e5;
     border-radius: 30px;
     width: 200px;
+    height: 260px;
     text-align: center;
-    padding: 20px;
     background-color: white;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card_details {
+    padding: 12px 0px 16px 18px;
+    text-decoration: none;
+    color:#202124;
+    border-radius: 30px;
+    text-align: left;
+    font-size: 14px;
 }
 
 .card:hover {
     box-shadow: 0 1px 6px rgba(32,33,36,.40);
     border-color: rgba(223,225,229,0);
 }
+
+.card:hover > img {
+    transform: scale(1.1);
+}
+
 
 .create_form {
     display: grid;
@@ -218,7 +247,8 @@ nav ul {
 }
 
 .bid_text {
-    background-color: lightgreen;
+    background-color: #3269c8;
+    color: white;
     border: solid 1px black;
     padding: 8px 12px 8px 12px;
     width: fit-content;
@@ -257,6 +287,9 @@ nav ul {
 
 .listing_wrapper img {
     height: 350px;
+    width: 200px;
+    object-fit: cover;
+    overflow: hidden;
     margin-top: 20px;
 }
 
@@ -282,6 +315,10 @@ nav ul {
 
 .price p {
     font-size: 16px;
+}
+
+.seller {
+    color: #3269c8;
 }
 
 .actions {
@@ -328,6 +365,7 @@ nav ul {
     border: 2px solid black;
     height: 45px;
     border-radius: 2px;
+    cursor: pointer;
 }
 
 .watch_button {
@@ -337,4 +375,5 @@ nav ul {
     border: 2px solid black;
     height: 45px;
     border-radius: 2px;
+    cursor: pointer;
 }

@@ -1,15 +1,16 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
 
 <div class="listings">
 {% for listing in listings %}
     <a href="{% url 'listing' listing.id %}">
     <div class="card">
                 <img src="{{ listing.image }}">
-                <h2>{{ listing.title }}</h2>
-                <h3>€{{ listing.start_price }}</h3>
+                <div class="card_details">
+                    <h2>{{ listing.title|slice:":15"  }}</h2>
+                    <h3>{{ listing.start_price }} kr.</h3>
+                </div>
     </div>
     </a>
 {% empty %}
