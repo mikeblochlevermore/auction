@@ -3,63 +3,74 @@
 {% block body %}
 
 <div class="listing_wrapper">
-    <div>
+    <div class="image_column">
         <img src="{{ listing.image }}">
     </div>
     <div>
         <h1 class="listing_title">{{ listing.title }}</h1>
         <h4>Sold by {{ listing.user }}</h4>
+        <div class="price">
+            {% if highest_bid is None %}
+                <h3>€{{ listing.start_price }}</h3>
+            {% else %}
+                <h3>€{{ highest_bid }}</h3>
+            {% endif %}
+            <p><strong>{{ bid_count }} bids </strong>
+                {% if bid_count > 5 %}
+                🔥 This item is popular!
+                {% endif %}
+            </p>
+        </div>
+        <div class="actions">
+            <div class="first_actions">
+                    <form action="{% url 'bid' listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
+                        <input class="inputfield" type="number" name="bid" placeholder="€"></input>
+                        <input class="submit" type="submit" value="Bid">
+                    </form>
+
+                    <form>
+                        {% csrf_token %}
+                        <input class="watch_button" type="submit" value="♡ Watch">
+                    </form>
+
+            </div>
+        </div>
+
         <p class="listing_description">{{ listing.description }}</p>
         <p>Category: {{ listing.category }}</p>
 
-        {% if highest_bid is None %}
-            <h3>Current Price: €{{ listing.start_price }}</h3>
-        {% else %}
-            <h3>Current Price: €{{ highest_bid }}</h3>
-        {% endif %}
-
-        <p>Number of bids: {{ bid.count }}</p>
-        <form action="{% url 'bid' listing.id %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
-            <input type="number" name="bid" placeholder="Bid"></input>
-            <input type="submit">
-        </form>
+        <div class="second_actions">
+            <form action="{% url 'comment' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                <input class="inputfield" type="text" name="comment" placeholder="Comment"></input>
+                <input class="submit" type="submit" value="Comment">
+            </form>
+        </div>
     </div>
-</div>
-
-
-
-<hr>
-
-<form action="{% url 'comment' listing.id %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
-    <input type="text" name="comment" placeholder="comments"></input>
-    <input type="submit">
-</form>
+<div class="history_column">
 
 <h1>History</h1>
-<div class="history">
+
 {% for item in history %}
     {% if item.bid %}
         <!-- This item is a bid -->
         <div class="comment">
-            <h3 class="bid_text">{{ item.user }} bid: €{{ item.bid }}</h3>
+            <p class="bid_text"><strong>{{ item.user }} bid:</strong> €{{ item.bid }}</p>
             <p class="comment_time">{{ item.time }}</p>
         </div>
     {% else %}
         <!-- This item is a comment -->
         {% if item.user == listing.user %}
             <div class="seller_comment">
-                <h3>🙂 {{ item.user }} (seller)</h3>
-                <p class="seller_comment_text">{{ item.comment }}</p>
+                <p class="seller_comment_text"><strong>{{ item.user }} (seller):</strong> {{ item.comment }}</p>
                 <p class="comment_time">{{ item.time }}</p>
             </div>
         {% else %}
             <div class="comment">
-                <h3>{{ item.user }}</h3>
-                <p class="comment_text">{{ item.comment }}</p>
+                <p class="comment_text"><strong>{{ item.user }}:</strong> {{ item.comment }}</p>
                 <p class="comment_time">{{ item.time }}</p>
             </div>
         {% endif %}

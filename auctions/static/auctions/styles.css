@@ -6,6 +6,8 @@
 
 main {
     margin: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 body {
@@ -182,40 +184,33 @@ nav ul {
     background-color: white;
 }
 
-.history {
-    width: 400px;
+.history_column {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background-color: aliceblue;
-    margin: auto;
-}
+    padding: 20px;
+    border-left: solid 1px black;
 
-.bid {
-    margin: 12px;
-    display: flex;
-    flex-direction: row;
-    text-align: right;
+    @media (max-width: 1200px) {
+        border-left: none;
+    }
 }
 
 .comment {
-    margin: 12px;
+    margin: 6px;
     display: flex;
     flex-direction: column;
     text-align: right;
 }
 
 .seller_comment {
-    margin: 40px;
-    display: flex;
-    flex-direction: column;
+    margin: 6px;
     text-align: left;
 }
 
 .comment_text {
     background-color: lightblue;
     border: solid 1px black;
-    padding: 8px;
+    padding: 8px 12px 8px 12px;
     width: fit-content;
     justify-content: flex-end;
     border-radius: 20px 20px 0 20px;
@@ -223,9 +218,9 @@ nav ul {
 }
 
 .bid_text {
-    background-color: lightseagreen;
+    background-color: lightgreen;
     border: solid 1px black;
-    padding: 8px;
+    padding: 8px 12px 8px 12px;
     width: fit-content;
     justify-content: flex-end;
     border-radius: 20px 20px 0 20px;
@@ -235,7 +230,7 @@ nav ul {
 .seller_comment_text {
     background-color: white;
     border: solid 1px black;
-    padding: 8px;
+    padding: 8px 12px 8px 12px;
     width: fit-content;
     border-radius: 20px 20px 20px 0px;
     margin: 6px 6px 6px 0;
@@ -246,14 +241,23 @@ nav ul {
 }
 
 .listing_wrapper {
-    display: flex;
-    margin: 40px;
-    flex-direction: row;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1.5fr;
+    column-gap: 20px;
+
+    @media (max-width: 1200px) {
+        grid-template-columns: 1fr 4fr; /* Single column layout */
+    }
+
+    @media (max-width: 800px) {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
 }
+
 
 .listing_wrapper img {
     height: 350px;
+    margin-top: 20px;
 }
 
 .listing_title {
@@ -262,5 +266,75 @@ nav ul {
 }
 
 .listing_description {
-    margin: 20px 0 20px 0;
+    margin: 20px 6vw 20px 0;
+}
+
+.price {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.price h3 {
+    font-size: 40px;
+}
+
+.price p {
+    font-size: 16px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+}
+
+.first_actions {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.first_actions form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.seco_actions {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.second_actions .inputfield {
+    width: 32vw;
+    margin: 20px 0px 20px 0px;
+}
+
+.inputfield {
+    align-items: center;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 12px;
+}
+
+.submit {
+    background-color: #333940;
+    color: #dfe1e5;
+    width: 120px;
+    border: 2px solid black;
+    height: 45px;
+    border-radius: 2px;
+}
+
+.watch_button {
+    background-color: #dfe1e5;
+    color: #333940;
+    width: 120px;
+    border: 2px solid black;
+    height: 45px;
+    border-radius: 2px;
 }

@@ -22,6 +22,7 @@ def listing(request, listing_id):
     listing = Listings.objects.get(id=listing_id)
     comments = Comments.objects.filter(listing=listing_id)
     bids = Bids.objects.filter(listing=listing_id)
+    bid_count = bids.count()
 
     highest_bid = bids.aggregate(Max('bid'))['bid__max']
 
@@ -32,6 +33,7 @@ def listing(request, listing_id):
         "listing": listing,
         'history': history,
         "highest_bid": highest_bid,
+        "bid_count": bid_count
     })
 
 def comment(request, listing_id):
