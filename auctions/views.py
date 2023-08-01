@@ -57,6 +57,9 @@ def bid(request, listing_id):
     # Note: When listings are created, the highest_bid will be set equal to the start price
     if bid > listing.highest_bid:
         listing.highest_bid = bid
+        listing.highest_bid_user = request.user
+
+        # Saves the highest bid and associated user under that listing
         listing.save()
 
         # Also register the bid in bids model.
@@ -155,3 +158,27 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+
+def profile(request):
+    listings = Listings.objects.filter(user=request.user)
+    # looks up the listings the user has bid on.
+    # distinct() removes the duplicate listings if the user has bid more than once on the same listing
+    bid_on_listings = Listings.objects.filter(bids__user=request.user).distinct()
+
+    winning = []
+    losing = []
+    # see whether the user that placed the highest bid is the current user
+    # if so, place that listing in a list they are winning
+    for listing in bid_on_listings:
+        # Check if the user's bid is the winning bid
+        if listing.highest_bid_user == request.user:
+            winning.append(listing)
+        else:
+            losing.append(listing)
+
+    return render(request, "auctions/profile.html", {
+        "listings": listings,
+        "winning": winning,
+        "losing": losing,
+    })

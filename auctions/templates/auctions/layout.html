@@ -26,9 +26,10 @@
                 <!-- <a href="https://www.flaticon.com/free-icons/monkey" title="monkey icons">Monkey icons created by Freepik - Flaticon</a> -->
                     <a class="nav-link" href="{% url 'new_listing' %}">List an Item</a>    
                     <!-- <img class="avatar" src="{% static 'auctions/monkey.png' %}"> -->
-                    <img class="avatar" src="https://www.dba.dk/static/dba-vip-site/images/avatar_private_male_user.png">
-                    <h3 class="username">{{ user.username }}</h3>
-                    <a class="logout" href="{% url 'logout' %}">Log Out</a>
+                        <a class="profile_link" href="{% url 'profile' %}">
+                            <img class="avatar" src="https://www.dba.dk/static/dba-vip-site/images/avatar_private_male_user.png">
+                            <h3 class="username">{{ user.username }}</h3>
+                        </a>
                 {% else %}
                 <li>
                     <a class="nav-link" href="{% url 'login' %}">Log In</a>

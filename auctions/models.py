@@ -10,6 +10,7 @@ class Listings(models.Model):
     description = models.CharField(max_length=128)
     start_price = models.IntegerField()
     highest_bid = models.IntegerField(default=0)
+    highest_bid_user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="listing_winner", null=True,)
     image = models.CharField(max_length=128)
     category = models.CharField(max_length=32)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")

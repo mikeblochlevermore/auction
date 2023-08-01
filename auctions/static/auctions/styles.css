@@ -65,12 +65,18 @@ nav ul {
     padding: 10px;
 }
 
-.user:hover > .avatar {
+.profile_link:hover > .avatar {
     box-shadow: 0 1px 6px  black;
 }
 
+.profile_link {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px;
+}
+
 .logout {
-    visibility: hidden;
     position: absolute;
     right: 7px;
     text-decoration: none;
@@ -84,14 +90,6 @@ nav ul {
 .username {
     color: black;
     margin-right: 20px;
-}
-
-.user:hover > .logout {
-    visibility: visible;
-}
-
-.user:hover > .username {
-    visibility: hidden;
 }
 
 #logo {

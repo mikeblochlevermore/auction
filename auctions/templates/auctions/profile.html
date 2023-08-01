@@ -1,0 +1,55 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h1 class="username">{{ user.username }}</h1>
+<a class="logout" href="{% url 'logout' %}">Log Out</a>
+
+<div>
+    <h1>Your Listings</h1>
+    <div class="listings">
+        {% for listing in listings %}
+            <a href="{% url 'listing' listing.id %}">
+            <div class="card">
+                        <img src="{{ listing.image }}">
+                        <div class="card_details">
+                            <h2>{{ listing.title|slice:":15"  }}</h2>
+                            <h3>{{ listing.highest_bid }} kr.</h3>
+                        </div>
+            </div>
+            </a>
+        {% endfor %}
+</div>
+
+<div>
+    <h1>Auctions You're Losing</h1>
+    <div class="listings">
+        {% for listing in losing %}
+            <a href="{% url 'listing' listing.id %}">
+            <div class="card">
+                        <img src="{{ listing.image }}">
+                        <div class="card_details">
+                            <h2>{{ listing.title|slice:":15"  }}</h2>
+                            <h3>{{ listing.highest_bid }} kr.</h3>
+                        </div>
+            </div>
+            </a>
+        {% endfor %}
+</div>
+
+<div>
+    <h1>Auctions You're Winning </h1>
+    <div class="listings">
+        {% for listing in winning %}
+            <a href="{% url 'listing' listing.id %}">
+            <div class="card">
+                        <img src="{{ listing.image }}">
+                        <div class="card_details">
+                            <h2>{{ listing.title|slice:":15"  }}</h2>
+                            <h3>{{ listing.highest_bid }} kr.</h3>
+                        </div>
+            </div>
+            </a>
+        {% endfor %}
+</div>
+{% endblock %}
