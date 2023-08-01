@@ -10,11 +10,7 @@
         <h1 class="listing_title">{{ listing.title }}</h1>
         <h4 class="seller">seller: {{ listing.user }}</h4>
         <div class="price">
-            {% if highest_bid is None %}
-                <h3>{{ listing.start_price }} kr.</h3>
-            {% else %}
-                <h3>{{ highest_bid }} kr.</h3>
-            {% endif %}
+            <h3>{{ listing.highest_bid }} kr.</h3>
             <p><strong>{{ bid_count }} bids </strong>
                 {% if bid_count > 5 %}
                 🔥 This item is popular!
@@ -26,7 +22,7 @@
                     <form action="{% url 'bid' listing.id %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="listing_id" value="{{ listing.id }}"></input>
-                        <input class="inputfield" type="number" name="bid" placeholder="€"></input>
+                        <input class="inputfield" type="number" name="bid" placeholder="kr."></input>
                         <input class="submit" type="submit" value="Bid">
                     </form>
 

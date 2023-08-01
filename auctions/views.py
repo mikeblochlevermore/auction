@@ -4,7 +4,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
-from django.db.models import Max
 
 from .models import User, Listings, Comments, Bids
 
@@ -24,15 +23,12 @@ def listing(request, listing_id):
     bids = Bids.objects.filter(listing=listing_id)
     bid_count = bids.count()
 
-    highest_bid = bids.aggregate(Max('bid'))['bid__max']
-
     # Mergers the data for comments and bids, then sorts by time, to give a history for the listing
     history = sorted(chain(bids, comments), key=attrgetter('time'))
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
         'history': history,
-        "highest_bid": highest_bid,
         "bid_count": bid_count
     })
 
@@ -55,21 +51,17 @@ def comment(request, listing_id):
 def bid(request, listing_id):
 
     bid = int(request.POST["bid"])
+    listing = Listings.objects.get(id=listing_id)
 
-    # Check the new bid is higher than the current highest bid
-    bids = Bids.objects.filter(listing=listing_id)
-    highest_bid = bids.aggregate(Max('bid'))['bid__max']
+    # Check bid is greater than start price / highest bid on the listing
+    # Note: When listings are created, the highest_bid will be set equal to the start price
+    if bid > listing.highest_bid:
+        listing.highest_bid = bid
+        listing.save()
 
-    # if no bids, set the highest_bid to the start price of the listing
-    if highest_bid is None:
-        listing = Listings.objects.get(id=listing_id)
-        highest_bid = listing.start_price
-
-    # Save the new bid if it is the highest offer
-    if bid > highest_bid:
-
+        # Also register the bid in bids model.
         new_bid =  Bids(
-            listing=Listings.objects.get(id=listing_id),
+            listing=listing,
             bid=bid,
             user=request.user,
             time=datetime.now()
@@ -96,6 +88,8 @@ def new_listing(request):
             description=description,
             image=image,
             start_price=start_price,
+            # no bids on creation, so set highest_bid = start_price
+            highest_bid=start_price,
             category=category,
             user=request.user,
             start_time=datetime.now(),
