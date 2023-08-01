@@ -161,7 +161,7 @@ def register(request):
 
 
 def profile(request):
-    listings = Listings.objects.filter(user=request.user)
+    user_listings = Listings.objects.filter(user=request.user)
     # looks up the listings the user has bid on.
     # distinct() removes the duplicate listings if the user has bid more than once on the same listing
     bid_on_listings = Listings.objects.filter(bids__user=request.user).distinct()
@@ -171,14 +171,35 @@ def profile(request):
     # see whether the user that placed the highest bid is the current user
     # if so, place that listing in a list they are winning
     for listing in bid_on_listings:
-        # Check if the user's bid is the winning bid
+
+        # Check if the user's bid is the current winning bid
+        # Note this adds both Active and In-Active Listings
         if listing.highest_bid_user == request.user:
             winning.append(listing)
         else:
             losing.append(listing)
 
     return render(request, "auctions/profile.html", {
-        "listings": listings,
+        "user_listings": user_listings,
         "winning": winning,
         "losing": losing,
+        "bid_on_listings": bid_on_listings,
     })
+
+def close(request, listing_id):
+    if request.method == "GET":
+        listing = Listings.objects.get(id=listing_id)
+
+        return render(request, "auctions/close.html", {
+            "listing": listing,
+        })
+
+    if request.method == "POST":
+        listing = Listings.objects.get(id=listing_id)
+
+        listing.end_time = datetime.now()
+        listing.active = False
+        listing.save()
+
+        url = reverse('listing', kwargs={'listing_id': listing_id})
+        return HttpResponseRedirect(url)

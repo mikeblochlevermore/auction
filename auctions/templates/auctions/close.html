@@ -1,0 +1,61 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h1>Close this Listing</h1>
+
+<div class="listing_wrapper">
+
+    <div class="image_column">
+        <img src="{{ listing.image }}">
+    </div>
+
+    <div>
+        <h1 class="listing_title">{{ listing.title }}</h1>
+        <h4 class="seller">{{ listing.start_time }}</h4>
+
+        <!-- If closing before any bids -->
+        {% if listing.highest_bid_user == None %}
+
+        <h2>You don't have any bids yet!</h2>
+        <h4>Click below to de-list your item instead</h4>
+        <div class="first_actions">
+            <div>
+                <form action="{% url 'close' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input class="submit" type="submit" value="De-List">
+                </form>
+            </div>
+            <div>
+                <form action="{% url 'listing' listing.id %}" method="GET">
+                    {% csrf_token %}
+                    <input class="submit" type="submit" value="Cancel">
+                </form>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Options to close for the highest bid -->
+        <div>
+            <div class="price">
+                <h3> Sell for: {{ listing.highest_bid }} kr.</h3>
+                <h3> To: {{ listing.highest_bid_user }}</h3>
+            </div>
+            <div class="first_actions">
+                <div>
+                    <form action="{% url 'close' listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <input class="submit" type="submit" value="Sell">
+                    </form>
+                </div>
+                <div>
+                    <form action="{% url 'listing' listing.id %}" method="GET">
+                        {% csrf_token %}
+                        <input class="watch_button" type="submit" value="Cancel">
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+</div>
+{% endblock %}

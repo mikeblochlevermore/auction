@@ -16,6 +16,7 @@ class Listings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    active = models.BooleanField(default="True")
 
     def __str__(self):
         return f"{self.title}, {self.description}, {self.start_price}, {self.highest_bid}, {self.image}, {self.category}, {self.user}, {self.start_time}, {self.end_time}"

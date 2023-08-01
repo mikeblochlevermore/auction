@@ -1,15 +1,50 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<div class="profile_user">
+    <img class="avatar" src="https://www.dba.dk/static/dba-vip-site/images/avatar_private_male_user.png">
+    <h1 class="username">{{ user.username }}</h1>
+    <a class="logout" href="{% url 'logout' %}">Log Out</a>
 
-<h1 class="username">{{ user.username }}</h1>
-<a class="logout" href="{% url 'logout' %}">Log Out</a>
+</div>
 
 <div>
-    <h1>Your Listings</h1>
-    <div class="listings">
-        {% for listing in listings %}
-            <a href="{% url 'listing' listing.id %}">
+    <h1>Your Active Listings</h1>
+
+<div class="listings">
+    {% for listing in user_listings %}
+        {% if listing.active == True %}
+        <a href="{% url 'listing' listing.id %}">
+        <div class="card">
+                    <img src="{{ listing.image }}">
+                    <div class="card_details">
+                        <h2>{{ listing.title|slice:":15"  }}</h2>
+                        <h3>{{ listing.highest_bid }} kr.</h3>
+                    </div>
+        </div>
+        </a>
+        {% else %}
+        <a href="{% url 'listing' listing.id %}">
+            <div class="card">
+                        <img src="{{ listing.image }}">
+                        <p class="sold_sign">SOLD</p>
+                        <div class="card_details">
+                            <h2>{{ listing.title|slice:":15"  }}</h2>
+                            <h3>{{ listing.highest_bid }} kr.</h3>
+                        </div>
+            </div>
+            </a>
+        {% endif %}
+    {% empty %}
+        <h2>No current listings</h2>
+    {% endfor %}
+    </div>
+<div>
+<h1>Auctions You've Won</h1>
+<div class="listings">
+    {% for listing in winning %}
+        {% if listing.active == False %}
+        <a href="{% url 'listing' listing.id %}">
             <div class="card">
                         <img src="{{ listing.image }}">
                         <div class="card_details">
@@ -18,38 +53,45 @@
                         </div>
             </div>
             </a>
-        {% endfor %}
+        {% endif %}
+        {% empty %}
+            <h2>No winnings yet!</h2>
+    {% endfor %}
 </div>
 
 <div>
-    <h1>Auctions You're Losing</h1>
+    <h1>Active Auctions You're Losing</h1>
     <div class="listings">
         {% for listing in losing %}
-            <a href="{% url 'listing' listing.id %}">
-            <div class="card">
+            {% if listing.active == True %}
+                <a href="{% url 'listing' listing.id %}">
+                    <div class="card">
                         <img src="{{ listing.image }}">
                         <div class="card_details">
                             <h2>{{ listing.title|slice:":15"  }}</h2>
                             <h3>{{ listing.highest_bid }} kr.</h3>
                         </div>
-            </div>
-            </a>
+                    </div>
+                </a>
+            {% endif %}
         {% endfor %}
 </div>
 
 <div>
-    <h1>Auctions You're Winning </h1>
+    <h1>Active Auctions You're Winning </h1>
     <div class="listings">
         {% for listing in winning %}
-            <a href="{% url 'listing' listing.id %}">
-            <div class="card">
+            {% if listing.active == True %}
+                <a href="{% url 'listing' listing.id %}">
+                    <div class="card">
                         <img src="{{ listing.image }}">
                         <div class="card_details">
                             <h2>{{ listing.title|slice:":15"  }}</h2>
                             <h3>{{ listing.highest_bid }} kr.</h3>
                         </div>
-            </div>
-            </a>
+                    </div>
+                </a>
+            {% endif %}
         {% endfor %}
 </div>
 {% endblock %}

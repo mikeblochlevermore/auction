@@ -31,12 +31,8 @@
                             <h3 class="username">{{ user.username }}</h3>
                         </a>
                 {% else %}
-                <li>
                     <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                </li>
-                <li>
                     <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
                 {% endif %}
             </div>
         </nav>

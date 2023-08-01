@@ -4,6 +4,7 @@
 
 <div class="listings">
 {% for listing in listings %}
+    {% if listing.active == True %}
     <a href="{% url 'listing' listing.id %}">
     <div class="card">
                 <img src="{{ listing.image }}">
@@ -13,6 +14,18 @@
                 </div>
     </div>
     </a>
+    {% else %}
+    <!-- <a href="{% url 'listing' listing.id %}">
+        <div class="card">
+                    <img src="{{ listing.image }}">
+                    <p class="sold_sign">SOLD</p>
+                    <div class="card_details">
+                        <h2>{{ listing.title|slice:":15"  }}</h2>
+                        <h3>{{ listing.highest_bid }} kr.</h3>
+                    </div>
+        </div>
+        </a> -->
+    {% endif %}
 {% empty %}
     <h2>No current listings</h2>
 {% endfor %}

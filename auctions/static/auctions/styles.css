@@ -31,6 +31,7 @@ nav ul {
     display: flex;
     list-style: none;
     gap: 20px;
+    list-style: none;
 }
 
 .nav-link {
@@ -77,8 +78,6 @@ nav ul {
 }
 
 .logout {
-    position: absolute;
-    right: 7px;
     text-decoration: none;
     color: inherit;
     padding: 12px;
@@ -115,6 +114,12 @@ nav ul {
     text-align: center;
     background-color: white;
     overflow: hidden;
+}
+
+.sold_sign {
+    color: #202124;
+    background-color: lightblue;
+    padding: 6px;
 }
 
 a {
@@ -323,24 +328,21 @@ a {
     display: flex;
     flex-direction: column;
     margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .first_actions {
     display: flex;
     flex-direction: row;
     gap: 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .first_actions form {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
-}
-
-.seco_actions {
-    display: flex;
-    flex-direction: row;
     gap: 12px;
 }
 
@@ -374,4 +376,11 @@ a {
     height: 45px;
     border-radius: 2px;
     cursor: pointer;
+}
+
+.profile_user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
 }
