@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
 
-from .models import User, Listings, Comments, Bids
+from .models import User, Listings, Comments, Bids, Watchlist
 
 from itertools import chain
 from operator import attrgetter
@@ -26,10 +26,18 @@ def listing(request, listing_id):
     # Mergers the data for comments and bids, then sorts by time, to give a history for the listing
     history = sorted(chain(bids, comments), key=attrgetter('time'))
 
+    # Check if the user is watching the listing
+    watching = Watchlist.objects.filter(listing=listing, user=request.user)
+    if watching.exists():
+        watched = True
+    else:
+        watched = False
+
     return render(request, "auctions/listing.html", {
         "listing": listing,
         'history': history,
-        "bid_count": bid_count
+        "bid_count": bid_count,
+        "watched": watched,
     })
 
 def comment(request, listing_id):
@@ -179,11 +187,14 @@ def profile(request):
         else:
             losing.append(listing)
 
+    watchlist = Watchlist.objects.filter(user=request.user)
+
     return render(request, "auctions/profile.html", {
         "user_listings": user_listings,
         "winning": winning,
         "losing": losing,
         "bid_on_listings": bid_on_listings,
+        "watchlist": watchlist,
     })
 
 def close(request, listing_id):
@@ -203,3 +214,24 @@ def close(request, listing_id):
 
         url = reverse('listing', kwargs={'listing_id': listing_id})
         return HttpResponseRedirect(url)
+
+
+def watch(request, listing_id):
+    listing = Listings.objects.get(id=listing_id)
+
+    # Check if the user is already watching the listing
+    watching = Watchlist.objects.filter(listing=listing, user=request.user)
+
+    # Use the exists() function to see if the item is already on the watchlist
+    if watching.exists():
+        watching.delete()
+    else:
+        new_watch = Watchlist(
+                listing=listing,
+                user=request.user,
+                time=datetime.now(),
+            )
+        new_watch.save()
+
+    url = reverse('listing', kwargs={'listing_id': listing_id})
+    return HttpResponseRedirect(url)

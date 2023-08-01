@@ -368,8 +368,18 @@ a {
     cursor: pointer;
 }
 
-.watch_button {
+.not_watched {
     background-color: #dfe1e5;
+    color: #333940;
+    width: 120px;
+    border: 2px solid black;
+    height: 45px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.watched{
+    background-color: lightblue;
     color: #333940;
     width: 120px;
     border: 2px solid black;

@@ -9,7 +9,26 @@
 </div>
 
 <div>
-    <h1>Your Active Listings</h1>
+    <h1>Your Watchlist</h1>
+
+<div class="listings">
+    {% for listing in watchlist %}
+        <a href="{% url 'listing' listing.listing.id %}">
+            <div class="card">
+                <img src="{{ listing.listing.image }}">
+                <div class="card_details">
+                    <h2>{{ listing.listing.title|slice:":15"  }}</h2>
+                    <h3>{{ listing.listing.highest_bid }} kr.</h3>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <h2>No current listings</h2>
+    {% endfor %}
+</div>
+
+<div>
+    <h1>Your Listings</h1>
 
 <div class="listings">
     {% for listing in user_listings %}

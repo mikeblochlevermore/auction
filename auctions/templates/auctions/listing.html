@@ -44,9 +44,13 @@
                         <input class="submit" type="submit" value="Bid">
                     </form>
 
-                    <form>
+                    <form action="{% url 'watch' listing.id %}" method="POST">
                         {% csrf_token %}
-                        <input class="watch_button" type="submit" value="♡ Watch">
+                        {% if watched == True %}
+                        <input class="watched" type="submit" value="♡">
+                        {% else %}
+                        <input class="not_watched" type="submit" value="♡">
+                        {% endif %}
                     </form>
                 </div>
             {% endif %}
