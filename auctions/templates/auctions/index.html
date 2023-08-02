@@ -15,7 +15,7 @@
     </div>
     </a>
     {% else %}
-    <!-- <a href="{% url 'listing' listing.id %}">
+    <a href="{% url 'listing' listing.id %}">
         <div class="card">
                     <img src="{{ listing.image }}">
                     <p class="sold_sign">SOLD</p>
@@ -24,7 +24,7 @@
                         <h3>{{ listing.highest_bid }} kr.</h3>
                     </div>
         </div>
-        </a> -->
+        </a>
     {% endif %}
 {% empty %}
     <h2>No current listings</h2>

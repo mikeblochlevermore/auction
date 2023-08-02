@@ -10,11 +10,25 @@ from .models import User, Listings, Comments, Bids, Watchlist
 from itertools import chain
 from operator import attrgetter
 
-
+categories = [
+        "🚙 Vehicles",
+        "📘 Books",
+        "🏠 Home",
+        "🪴 Garden",
+        "👗 Clothes",
+        "🧸 Children",
+        "⚽️ Sport",
+        "⛵️ Boats",
+        "🚲 Bikes",
+        "💻 Electronics",
+        "🐈 Animals",
+        "🎸 Instruments",
+        "📦 Other"]
 
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listings.objects.all(),
+        "categories": categories,
     })
 
 def listing(request, listing_id):
@@ -38,6 +52,7 @@ def listing(request, listing_id):
         'history': history,
         "bid_count": bid_count,
         "watched": watched,
+        "categories": categories,
     })
 
 def comment(request, listing_id):
@@ -111,9 +126,11 @@ def new_listing(request):
 
         return render(request, "auctions/index.html", {
         "listings": Listings.objects.all(),
+        "categories": categories,
         })
     else:
         return render(request, "auctions/new_listing.html", {
+            "categories": categories,
         })
 
 def login_view(request):
@@ -195,6 +212,7 @@ def profile(request):
         "losing": losing,
         "bid_on_listings": bid_on_listings,
         "watchlist": watchlist,
+        "categories": categories,
     })
 
 def close(request, listing_id):
@@ -203,6 +221,7 @@ def close(request, listing_id):
 
         return render(request, "auctions/close.html", {
             "listing": listing,
+            "categories": categories,
         })
 
     if request.method == "POST":

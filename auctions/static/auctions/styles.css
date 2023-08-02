@@ -66,6 +66,15 @@ nav ul {
     padding: 10px;
 }
 
+.categories {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 30px;
+    margin: 0 30px 10px 30px;
+}
+
 .profile_link:hover > .avatar {
     box-shadow: 0 1px 6px  black;
 }
@@ -158,10 +167,10 @@ a {
     margin: 0px 40px 40px 40px;
 }
 
-.create_form input {
+.create_form input, select {
     border: 1px solid #dfe1e5;
     border-radius: 30px;
-    padding: 10px;
+    padding: 12px;
     padding-left: 30px;
     margin-top: 20px;
 }
