@@ -1,4 +1,6 @@
 {% extends "auctions/layout.html" %}
+{% load humanize %}
+<!-- Humanize allows use of the intcomma filter (1000 = 1,000) -->
 
 {% block body %}
 
@@ -10,16 +12,19 @@
     </div>
 
 <!-- Listing column starts -->
-    <div>
-        <h1 class="listing_title">{{ listing.title }}</h1>
-        <h4 class="seller">seller: {{ listing.user }}</h4>
+    <div class="listing_details">
+        <div>
+            <h1 class="listing_title">{{ listing.title }}</h1>
+        </div>
 
-        <!-- Post these details if ACTIVE -->
-        {% if listing.active == True %}
-            <h4 class="seller">listed at: {{ listing.start_time }}</h4>
+    <!-- Post these details if ACTIVE -->
+    {% if listing.active == True %}
 
-            <div class="price">
-                <h3>{{ listing.highest_bid }} kr.</h3>
+        <div class="price">
+            <div>
+                <h3>{{ listing.highest_bid|intcomma }} kr.</h3>
+            </div>
+            <div>
                 <p><strong>{{ bid_count }} bids </strong>
                     {% if bid_count > 5 %}
                     🔥 This item is popular!
@@ -27,8 +32,9 @@
                 </p>
                 <p><strong>{{ listing.highest_bid_user }}</strong> has the highest bid</p>
             </div>
+        </div>
 
-            <div class="actions">
+        <div class="actions">
             <!-- If the owner, allow them to close the auction -->
             {% if listing.user == user %}
                 <form action="{% url 'close' listing.id %}" method="GET">
@@ -37,7 +43,7 @@
                 </form>
             {% else %}
             <!-- If another user, allow them to bid -->
-                <div class="first_actions">
+                <div class="bid_actions">
                     <form action="{% url 'bid' listing.id %}" method="POST">
                         {% csrf_token %}
                         <input class="inputfield" type="number" name="bid" placeholder="kr."></input>
@@ -54,12 +60,12 @@
                     </form>
                 </div>
             {% endif %}
-            </div>
-            <h4 class="seller">{{ listing.end_time }}</h4>
+        </div>
 
         <!-- If the listing is not ACTIVE -->
         {% else %}
-        <h1>This Auction has Ended</h1>
+
+        <h1 class="ended_banner">This Auction has Ended</h1>
 
             <!-- If not ACTIVE and is the SELLER -->
             {% if listing.user == user %}
@@ -71,7 +77,7 @@
                 {% else %}
                 <h2>Congratulations! You sold this item</h2>
                 <h2>To: {{ listing.highest_bid_user }}</h2>
-                <h2>For: {{ listing.highest_bid }} kr.</h2>
+                <h2>For: {{ listing.highest_bid|intcomma }} kr.</h2>
                 {% endif %}
             {% endif %}
 
@@ -79,13 +85,17 @@
             {% if listing.highest_bid_user == user %}
             <h2>Congratulations! You bought this item</h2>
             <h2>From: {{ listing.user }}</h2>
-            <h2>For: {{ listing.highest_bid }} kr.</h2>
+            <h2>For: {{ listing.highest_bid|intcomma }} kr.</h2>
             {% endif %}
 
         {% endif %}
-
-        <p class="listing_description">{{ listing.description }}</p>
-        <p>Category: {{ listing.category }}</p>
+        <div>
+            <p class="listing_description">{{ listing.description }}</p>
+        </div>
+        <div class="seller">
+            <p>{{ listing.user }} listed this at: {{ listing.start_time }}</p>
+            <p>Category: {{ listing.category }}</p>
+        </div>
 
         <div class="second_actions">
             <form action="{% url 'comment' listing.id %}" method="POST">
@@ -98,34 +108,35 @@
 
 <!-- Listing column ends -->
 
-<div class="history_column">
+    <div class="history_column">
 
-<h1>History</h1>
+        <h1>History</h1>
 
-{% for item in history %}
-    {% if item.bid %}
-        <!-- This item is a bid -->
-        <div class="comment">
-            <p class="bid_text"><strong>{{ item.user }} bid:</strong> {{ item.bid }} kr.</p>
-            <p class="comment_time">{{ item.time }}</p>
-        </div>
-    {% else %}
-        <!-- This item is a comment by the seller -->
-        {% if item.user == listing.user %}
-            <div class="seller_comment">
-                <p class="seller_comment_text"><strong>{{ item.user }} (seller):</strong> {{ item.comment }}</p>
-                <p class="comment_time">{{ item.time }}</p>
-            </div>
-        {% else %}
-        <!-- This item is a comment by another user -->
-            <div class="comment">
-                <p class="comment_text"><strong>{{ item.user }}:</strong> {{ item.comment }}</p>
-                <p class="comment_time">{{ item.time }}</p>
-            </div>
-        {% endif %}
-    {% endif %}
-{% endfor %}
+        {% for item in history %}
+            {% if item.bid %}
+                <!-- This item is a bid -->
+                <div class="comment">
+                    <p class="bid_text"><strong>{{ item.user }} bid:</strong> {{ item.bid }} kr.</p>
+                    <p class="comment_time">{{ item.time }}</p>
+                </div>
+            {% else %}
+                <!-- This item is a comment by the seller -->
+                {% if item.user == listing.user %}
+                    <div class="seller_comment">
+                        <p class="seller_comment_text"><strong>{{ item.user }} (seller):</strong> {{ item.comment }}</p>
+                        <p class="comment_time">{{ item.time }}</p>
+                    </div>
+                {% else %}
+                <!-- This item is a comment by another user -->
+                    <div class="comment">
+                        <p class="comment_text"><strong>{{ item.user }}:</strong> {{ item.comment }}</p>
+                        <p class="comment_time">{{ item.time }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
 </div>
-
 
 {% endblock %}

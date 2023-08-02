@@ -1,4 +1,6 @@
 {% extends "auctions/layout.html" %}
+{% load humanize %}
+<!-- Humanize allows use of the intcomma filter (1000 = 1,000) -->
 
 {% block body %}
 
@@ -38,7 +40,7 @@
         <!-- Options to close for the highest bid -->
         <div>
             <div class="price">
-                <h3> Sell for: {{ listing.highest_bid }} kr.</h3>
+                <h3> Sell for: {{ listing.highest_bid|intcomma }} kr.</h3>
                 <h3> To: {{ listing.highest_bid_user }}</h3>
             </div>
             <div class="first_actions">

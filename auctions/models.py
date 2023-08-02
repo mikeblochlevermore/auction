@@ -15,7 +15,7 @@ class Listings(models.Model):
     category = models.CharField(max_length=32)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True, default=None)
     active = models.BooleanField(default="True")
 
     def __str__(self):

@@ -1,4 +1,6 @@
 {% extends "auctions/layout.html" %}
+{% load humanize %}
+<!-- Humanize allows use of the intcomma filter (1000 = 1,000) -->
 
 {% block body %}
 
@@ -19,7 +21,7 @@
                 <img src="{{ listing.listing.image }}">
                 <div class="card_details">
                     <h2>{{ listing.listing.title|slice:":15"  }}</h2>
-                    <h3>{{ listing.listing.highest_bid }} kr.</h3>
+                    <h3>{{ listing.listing.highest_bid|intcomma }} kr.</h3>
                 </div>
             </div>
         </a>
@@ -39,7 +41,7 @@
                     <img src="{{ listing.image }}">
                     <div class="card_details">
                         <h2>{{ listing.title|slice:":15"  }}</h2>
-                        <h3>{{ listing.highest_bid }} kr.</h3>
+                        <h3>{{ listing.highest_bid|intcomma }} kr.</h3>
                     </div>
         </div>
         </a>
@@ -50,7 +52,7 @@
                         <p class="sold_sign">SOLD</p>
                         <div class="card_details">
                             <h2>{{ listing.title|slice:":15"  }}</h2>
-                            <h3>{{ listing.highest_bid }} kr.</h3>
+                            <h3>{{ listing.highest_bid|intcomma }} kr.</h3>
                         </div>
             </div>
             </a>
@@ -69,7 +71,7 @@
                         <img src="{{ listing.image }}">
                         <div class="card_details">
                             <h2>{{ listing.title|slice:":15"  }}</h2>
-                            <h3>{{ listing.highest_bid }} kr.</h3>
+                            <h3>{{ listing.highest_bid|intcomma }} kr.</h3>
                         </div>
             </div>
             </a>
@@ -89,7 +91,7 @@
                         <img src="{{ listing.image }}">
                         <div class="card_details">
                             <h2>{{ listing.title|slice:":15"  }}</h2>
-                            <h3>{{ listing.highest_bid }} kr.</h3>
+                            <h3>{{ listing.highest_bid|intcomma }} kr.</h3>
                         </div>
                     </div>
                 </a>
@@ -107,7 +109,7 @@
                         <img src="{{ listing.image }}">
                         <div class="card_details">
                             <h2>{{ listing.title|slice:":15"  }}</h2>
-                            <h3>{{ listing.highest_bid }} kr.</h3>
+                            <h3>{{ listing.highest_bid|intcomma }} kr.</h3>
                         </div>
                     </div>
                 </a>

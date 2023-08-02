@@ -39,7 +39,7 @@ def listing(request, listing_id):
     bid_count = bids.count()
 
     # Mergers the data for comments and bids, then sorts by time, to give a history for the listing
-    history = sorted(chain(bids, comments), key=attrgetter('time'))
+    history = sorted(chain(bids, comments), key=attrgetter('time'), reverse=True)
 
     # Check if the user is watching the listing
     watching = Watchlist.objects.filter(listing=listing, user=request.user)
@@ -108,7 +108,6 @@ def new_listing(request):
         image = request.POST["image"]
         start_price = request.POST["start_price"]
         category = request.POST["category"]
-        end_time = request.POST["end_time"]
 
         new_listing = Listings(
             title=title,
@@ -120,7 +119,6 @@ def new_listing(request):
             category=category,
             user=request.user,
             start_time=datetime.now(),
-            end_time=end_time
         )
 
         new_listing.save()
@@ -260,6 +258,7 @@ def watch(request, listing_id):
 
 def category(request, category):
     listings = Listings.objects.filter(category=category)
+
     return render(request, "auctions/categories.html", {
         "listings": listings,
         "category": category,

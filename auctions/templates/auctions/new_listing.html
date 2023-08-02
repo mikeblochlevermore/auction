@@ -12,11 +12,9 @@
             <input type="number", name="start_price", placeholder="Starting Price">
             <select name="category", placeholder="Category">
                 <option value="Null">Category</option>
-                {% for category in categories %}
-                <option value="{{ category }}">{{ category }}</option>
+                {% for category_name, category_emoji in categories %}
+                <option value="{{ category_name }}">{{ category_emoji }} {{ category_name }}</option>
                 {% endfor %}
-            <input type="datetime-local", name="end_time", placeholder="End Time">
-
             <input class="submit_button" type="submit">
         </form>
     </div>

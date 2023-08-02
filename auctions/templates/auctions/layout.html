@@ -1,4 +1,6 @@
 {% load static %}
+{% load humanize %}
+<!-- Humanize allows use of the intcomma filter (1000 = 1,000) -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +38,7 @@
         </nav>
         <div class="categories">
             {% for category_name, category_emoji in categories %}
-                <a href="{% url 'categories' category_name %}">{{ category_emoji }} {{ category_name }}</a>
+                <a class="category_link" href="{% url 'categories' category_name %}">{{ category_emoji }} {{ category_name }}</a>
             {% endfor %}
         </div>
         <main>

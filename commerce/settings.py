@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Humanize allows use of the intcomma filter (1000 = 1,000)
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
