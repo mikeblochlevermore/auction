@@ -35,8 +35,8 @@
             </div>
         </nav>
         <div class="categories">
-            {% for category in categories %}
-                <a>{{ category }}</a>
+            {% for category_name, category_emoji in categories %}
+                <a href="{% url 'categories' category_name %}">{{ category_emoji }} {{ category_name }}</a>
             {% endfor %}
         </div>
         <main>

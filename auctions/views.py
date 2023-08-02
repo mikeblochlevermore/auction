@@ -11,19 +11,20 @@ from itertools import chain
 from operator import attrgetter
 
 categories = [
-        "🚙 Vehicles",
-        "📘 Books",
-        "🏠 Home",
-        "🪴 Garden",
-        "👗 Clothes",
-        "🧸 Children",
-        "⚽️ Sport",
-        "⛵️ Boats",
-        "🚲 Bikes",
-        "💻 Electronics",
-        "🐈 Animals",
-        "🎸 Instruments",
-        "📦 Other"]
+    ("Vehicles", "🚙"),
+    ("Books", "📘"),
+    ("Home", "🏠"),
+    ("Garden", "🪴"),
+    ("Clothes", "👗"),
+    ("Children", "🧸"),
+    ("Sport", "⚽️"),
+    ("Boats", "⛵️"),
+    ("Bikes", "🚲"),
+    ("Electronics", "💻"),
+    ("Animals", "🐈"),
+    ("Instruments", "🎸"),
+    ("Other", "📦")
+]
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -186,6 +187,7 @@ def register(request):
 
 
 def profile(request):
+
     user_listings = Listings.objects.filter(user=request.user)
     # looks up the listings the user has bid on.
     # distinct() removes the duplicate listings if the user has bid more than once on the same listing
@@ -254,3 +256,12 @@ def watch(request, listing_id):
 
     url = reverse('listing', kwargs={'listing_id': listing_id})
     return HttpResponseRedirect(url)
+
+
+def category(request, category):
+    listings = Listings.objects.filter(category=category)
+    return render(request, "auctions/categories.html", {
+        "listings": listings,
+        "category": category,
+        "categories": categories,
+    })
