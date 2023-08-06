@@ -41,6 +41,19 @@
                 <a class="category_link" href="{% url 'categories' category_name %}">{{ category_emoji }} {{ category_name }}</a>
             {% endfor %}
         </div>
+
+        {% if request.GET.message %}
+        <div class="message">
+            <p>{{ request.GET.message }}</p>
+        </div>
+        {% endif %}
+
+        {% if message %}
+        <div class="message">
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+
         <main>
         {% block body %}
         {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
@@ -95,10 +95,11 @@ def bid(request, listing_id):
             )
         new_bid.save()
     else:
-        print("must be a higher amount than the current price")
+       message = "Your bid must be higher than the current price"
+       # the 'layout.html' template displays the message
+       return HttpResponseRedirect(reverse('listing', kwargs={'listing_id': listing_id}) + f'?message={message}')
 
-    url = reverse('listing', kwargs={'listing_id': listing_id})
-    return HttpResponseRedirect(url)
+    return HttpResponseRedirect(reverse('listing', kwargs={'listing_id': listing_id}))
 
 
 def new_listing(request):

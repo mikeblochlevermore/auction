@@ -426,3 +426,13 @@ a {
     background-color: #b3cff5;
     padding: 12px;
 }
+
+.message {
+    background-color:#3269c8;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: -30px;
+  }
