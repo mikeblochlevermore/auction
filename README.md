@@ -1,7 +1,8 @@
 # CS50W Project 2: Commerce (Den Blå Avis Redesign)
 
-## A redesign of Den Blå Avis (DBA), the Danish equivalent of eBay.
-## An informal auction site which allows users to list items, watch items and place bids.
+## A redesign of Den Blå Avis (DBA), the Danish equivalent of eBay. <br> An informal auction site which allows users to list items, watch items and place bids.
+
+[See the Video](https://youtu.be/BiOrfYFu6-w)<br>
 
 👤 Users can register for accounts
 
