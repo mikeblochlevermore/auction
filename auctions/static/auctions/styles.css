@@ -278,10 +278,12 @@ a {
     background-color: #b3cff5;
     border: solid 1px black;
     padding: 8px 12px 8px 12px;
-    width: fit-content;
     justify-content: flex-end;
+    width: fit-content;
+    max-width: 200px;
     border-radius: 20px 20px 0 20px;
     margin: 6px 0px 6px auto;
+    text-align: left;
 }
 
 .bid_text {
@@ -300,6 +302,7 @@ a {
     border: solid 1px black;
     padding: 8px 12px 8px 12px;
     width: fit-content;
+    max-width: 200px;
     border-radius: 20px 20px 20px 0px;
     margin: 6px 6px 6px 0;
 }
@@ -323,11 +326,15 @@ a {
 }
 
 .listing_wrapper img {
-    height: 350px;
-    width: 200px;
+    height: 400px;
+    width: 280px;
     object-fit: cover;
     overflow: hidden;
     margin-top: 20px;
+
+    @media (max-width: 800px) {
+        width: 98%;
+    }
 }
 
 .listing_details {
