@@ -27,8 +27,9 @@ categories = [
 ]
 
 def index(request):
+    listings = sorted(Listings.objects.all(), key=attrgetter('start_time'), reverse=True)
     return render(request, "auctions/index.html", {
-        "listings": Listings.objects.all(),
+        "listings": listings,
         "categories": categories,
     })
 
@@ -123,11 +124,8 @@ def new_listing(request):
         )
 
         new_listing.save()
+        return HttpResponseRedirect(reverse("index"))
 
-        return render(request, "auctions/index.html", {
-        "listings": Listings.objects.all(),
-        "categories": categories,
-        })
     else:
         return render(request, "auctions/new_listing.html", {
             "categories": categories,
@@ -219,10 +217,18 @@ def profile(request):
 def close(request, listing_id):
     if request.method == "GET":
         listing = Listings.objects.get(id=listing_id)
+        comments = Comments.objects.filter(listing=listing_id)
+        bids = Bids.objects.filter(listing=listing_id)
+        bid_count = bids.count()
+
+        # Mergers the data for comments and bids, then sorts by time, to give a history for the listing
+        history = sorted(chain(bids, comments), key=attrgetter('time'), reverse=True)
 
         return render(request, "auctions/close.html", {
             "listing": listing,
             "categories": categories,
+            'history': history,
+            "bid_count": bid_count,
         })
 
     if request.method == "POST":

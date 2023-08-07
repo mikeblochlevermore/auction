@@ -4,24 +4,30 @@
 
 {% block body %}
 
-<h1>Close this Listing</h1>
-
 <div class="listing_wrapper">
 
+<!-- Image column -->
     <div class="image_column">
         <img src="{{ listing.image }}">
     </div>
 
-    <div>
-        <h1 class="listing_title">{{ listing.title }}</h1>
-        <h4 class="seller">{{ listing.start_time }}</h4>
+<!-- Listing column starts -->
+    <div class="listing_details">
+        <div>
+            <h1 class="listing_title">{{ listing.title }}</h1>
+        </div>
+        <div>
+            <h1 class="ended_banner">End This Auction</h1>
+        </div>
 
-        <!-- If closing before any bids -->
+        <!-- Option to de-list if no bidders yet -->
         {% if listing.highest_bid_user == None %}
 
-        <h2>You don't have any bids yet!</h2>
-        <h4>Click below to de-list your item instead</h4>
-        <div class="first_actions">
+        <div>
+            <h2>You don't have any bids yet!</h2>
+            <h4>Click below to de-list your item instead</h4>
+        </div>
+        <div class="bid_actions">
             <div>
                 <form action="{% url 'close' listing.id %}" method="POST">
                     {% csrf_token %}
@@ -31,33 +37,88 @@
             <div>
                 <form action="{% url 'listing' listing.id %}" method="GET">
                     {% csrf_token %}
-                    <input class="submit" type="submit" value="Cancel">
+                    <input class="cancel_button" type="submit" value="Cancel">
                 </form>
             </div>
         </div>
 
         {% else %}
-        <!-- Options to close for the highest bid -->
+            <!-- Option to close for the highest bid -->
+
         <div>
-            <div class="price">
-                <h3> Sell for: {{ listing.highest_bid|intcomma }} kr.</h3>
-                <h3> To: {{ listing.highest_bid_user }}</h3>
+            <h1> Sell to {{ listing.highest_bid_user }} for {{ listing.highest_bid|intcomma }} kr.</h1>
+        </div>
+        <div class="bid_actions">
+            <div>
+                <form action="{% url 'close' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input class="submit" type="submit" value="Sell">
+                </form>
             </div>
-            <div class="first_actions">
-                <div>
-                    <form action="{% url 'close' listing.id %}" method="POST">
-                        {% csrf_token %}
-                        <input class="submit" type="submit" value="Sell">
-                    </form>
-                </div>
-                <div>
-                    <form action="{% url 'listing' listing.id %}" method="GET">
-                        {% csrf_token %}
-                        <input class="watch_button" type="submit" value="Cancel">
-                    </form>
-                </div>
+            <div>
+                <form action="{% url 'listing' listing.id %}" method="GET">
+                    {% csrf_token %}
+                    <input class="cancel_button" type="submit" value="Cancel">
+                </form>
             </div>
         </div>
         {% endif %}
+
+        <div>
+            <p><strong>{{ bid_count }} bids </strong>
+                {% if bid_count > 5 %}
+                🔥 This item is popular!
+                {% endif %}
+            </p>
+            <p><strong>{{ listing.highest_bid_user }}</strong> has the highest bid</p>
+        </div>
+        <div>
+            <p class="listing_description">{{ listing.description }}</p>
+        </div>
+        <div class="seller">
+            <p>{{ listing.user }} listed this at: {{ listing.start_time }}</p>
+            <p>Category: {{ listing.category }}</p>
+        </div>
+
+        <div class="second_actions">
+            <form action="{% url 'comment' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input class="inputfield" type="text" name="comment" placeholder="Comment"></input>
+                <input class="submit" type="submit" value="Comment">
+            </form>
+        </div>
+    </div>
+
+<!-- Listing column ends -->
+
+    <div class="history_column">
+
+        <h1>History</h1>
+
+        {% for item in history %}
+            {% if item.bid %}
+                <!-- This item is a bid -->
+                <div class="comment">
+                    <p class="bid_text"><strong>{{ item.user }} bid:</strong> {{ item.bid }} kr.</p>
+                    <p class="comment_time">{{ item.time }}</p>
+                </div>
+            {% else %}
+                <!-- This item is a comment by the seller -->
+                {% if item.user == listing.user %}
+                    <div class="seller_comment">
+                        <p class="seller_comment_text"><strong>{{ item.user }} (seller):</strong> {{ item.comment }}</p>
+                        <p class="comment_time">{{ item.time }}</p>
+                    </div>
+                {% else %}
+                <!-- This item is a comment by another user -->
+                    <div class="comment">
+                        <p class="comment_text"><strong>{{ item.user }}:</strong> {{ item.comment }}</p>
+                        <p class="comment_time">{{ item.time }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
+
 {% endblock %}
