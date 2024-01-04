@@ -1,6 +1,12 @@
-# CS50W Project 2: Commerce (Den Blå Avis Redesign)
+# CS50W Project 2: Commerce (dba, redesigned)
 
-## A redesign of Den Blå Avis (DBA), the Danish equivalent of eBay. <br> An informal auction site which allows users to list items, watch items and place bids.
+### A redesign of Den Blå Avis (dba), the Danish equivalent of eBay. <br> An informal auction site which allows users to list items, watch items and place bids.
+
+<img src="https://github.com/mikeblochlevermore/auction/blob/master/auctions/static/auctions/dba_cover.png?raw=true" max-width="400"/>
+
+## Watch on YouTube
+
+[![See the Video](https://github.com/mikeblochlevermore/auction/blob/master/auctions/static/auctions/youtube_thumb.png?raw=true)](https://youtu.be/BiOrfYFu6-w)
 
 [See the Video](https://youtu.be/BiOrfYFu6-w)<br>
 
@@ -66,6 +72,8 @@ class Watchlist(models.Model):
 
 ## Create a Listing
 
+![New Listing Example](https://github.com/mikeblochlevermore/auction/blob/master/auctions/static/auctions/new_listing_example.gif?raw=true)
+
 Registered users can add listings, with details such as: Title, Description, Url address for an image, Start Price and Category.
 
 ```
@@ -103,6 +111,8 @@ def new_listing(request):
 - Users can set an end-time for the listing, but this could be implemented as a countdown, a la eBay.
 
 ## The Index Page
+
+![Index Example](https://github.com/mikeblochlevermore/auction/blob/master/auctions/static/auctions/index_example.gif?raw=true)
 
 The home page displays all active listings. I wanted to make this page significantly less cluttered than Den Blå Avis.
 I borrowed the style idea of individual cards and a slight zoom on hover from DBA.
@@ -147,6 +157,8 @@ def index(request):
 - Ability to side scroll through the listings, rather than have them all wrap.
 
 ## Listing Page
+
+<img src="https://github.com/mikeblochlevermore/auction/blob/master/auctions/static/auctions/item_example.png?raw=true" max-width="400"/>
 
 The listing page features three main columns: an image, a list of details (title, description, price etc), and a history.
 The history is a joining of the comments and bids categories to provide a message-like display on the side of the listing.
@@ -217,3 +229,18 @@ admin.site.register(Watchlist)
 ```
 
 ### Note: A few lines of code and initial setup was supplied by CS50W
+
+### How to run
+
+Set up database
+- python3 manage.py makemigrations
+- python3 manage.py migrate
+
+Run server
+- python3 manage.py runserver
+
+### Get in Touch!
+
+Michael Bloch-Levermore <br>
+📧 interactivephilosophy@gmail.com <br>
+👤 [LinkedIn](https://www.linkedin.com/in/mike-bloch-levermore/)
